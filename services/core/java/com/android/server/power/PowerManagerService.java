@@ -1568,7 +1568,8 @@ public final class PowerManagerService extends SystemService
                 if (mUserActivitySummary != 0 && nextTimeout >= 0) {
                     Message msg = mHandler.obtainMessage(MSG_USER_ACTIVITY_TIMEOUT);
                     msg.setAsynchronous(true);
-                    mHandler.sendMessageAtTime(msg, nextTimeout);
+		    if(mScreenOffTimeoutSetting > 0)
+                           mHandler.sendMessageAtTime(msg, nextTimeout);
                 }
             } else {
                 mUserActivitySummary = 0;
@@ -1606,6 +1607,9 @@ public final class PowerManagerService extends SystemService
         int timeout = mSleepTimeoutSetting;
         if (timeout <= 0) {
             return -1;
+        }
+	if(timeout < 0 ){
+            timeout = Integer.MAX_VALUE;
         }
         return Math.max(timeout, mMinimumScreenOffTimeoutConfig);
     }
