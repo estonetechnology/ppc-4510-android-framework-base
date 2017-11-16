@@ -1625,6 +1625,9 @@ public final class PowerManagerService extends SystemService
         if (sleepTimeout >= 0) {
             timeout = Math.min(timeout, sleepTimeout);
         }
+	if(timeout < 0 ){
+            timeout = Integer.MAX_VALUE;
+        }
         return Math.max(timeout, mMinimumScreenOffTimeoutConfig);
     }
 
