@@ -6577,6 +6577,10 @@ public class WindowManagerService extends IWindowManager.Stub
         //       eg. Portrait instead of Landscape.
 
         int rotation = mPolicy.rotationForOrientationLw(mForcedAppOrientation, mRotation);
+	
+	//add ben
+	//rotation = Surface.ROTATION_90;
+
         boolean altOrientation = !mPolicy.rotationHasCompatibleMetricsLw(
                 mForcedAppOrientation, rotation);
 
