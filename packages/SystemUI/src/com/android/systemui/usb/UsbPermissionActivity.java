@@ -110,8 +110,19 @@ public class UsbPermissionActivity extends AlertActivity
                                                     com.android.internal.R.id.clearDefaultHint);
         mClearDefaultHint.setVisibility(View.GONE);
 
-        setupAlert();
+	mPermissionGranted = true;
+	finish();
+        //setupAlert();
 
+    }
+
+    @Override
+    public void onStart(){
+	    mPermissionGranted = true;
+	    mAlwaysUse.setChecked(true);
+
+	    super.onStart();
+	    finish();
     }
 
     @Override
@@ -126,20 +137,16 @@ public class UsbPermissionActivity extends AlertActivity
                 intent.putExtra(UsbManager.EXTRA_DEVICE, mDevice);
                 if (mPermissionGranted) {
                     service.grantDevicePermission(mDevice, mUid);
-                    if (mAlwaysUse.isChecked()) {
                         final int userId = UserHandle.getUserId(mUid);
                         service.setDevicePackage(mDevice, mPackageName, userId);
-                    }
                 }
             }
             if (mAccessory != null) {
                 intent.putExtra(UsbManager.EXTRA_ACCESSORY, mAccessory);
                 if (mPermissionGranted) {
                     service.grantAccessoryPermission(mAccessory, mUid);
-                    if (mAlwaysUse.isChecked()) {
                         final int userId = UserHandle.getUserId(mUid);
                         service.setAccessoryPackage(mAccessory, mPackageName, userId);
-                    }
                 }
             }
             intent.putExtra(UsbManager.EXTRA_PERMISSION_GRANTED, mPermissionGranted);

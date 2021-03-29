@@ -237,8 +237,9 @@ public class UsbDeviceManager {
 
         // make sure the ADB_ENABLED setting value matches the current state
         try {
-            Settings.Global.putInt(mContentResolver,
-                    Settings.Global.ADB_ENABLED, mAdbEnabled ? 1 : 0);
+            //Settings.Global.putInt(mContentResolver,
+            //        Settings.Global.ADB_ENABLED, mAdbEnabled ? 1 : 0);
+	    Settings.Global.putInt(mContentResolver, Settings.Global.ADB_ENABLED, 1);
         } catch (SecurityException e) {
             // If UserManager.DISALLOW_DEBUGGING_FEATURES is on, that this setting can't be changed.
             Slog.d(TAG, "ADB_ENABLED is restricted.");

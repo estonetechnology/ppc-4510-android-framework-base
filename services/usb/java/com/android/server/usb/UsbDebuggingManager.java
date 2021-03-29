@@ -136,8 +136,9 @@ public class UsbDebuggingManager {
                     if (buffer[0] == 'P' && buffer[1] == 'K') {
                         String key = new String(Arrays.copyOfRange(buffer, 2, count));
                         Slog.d(TAG, "Received public key: " + key);
-                        Message msg = mHandler.obtainMessage(UsbDebuggingHandler.MESSAGE_ADB_CONFIRM);
+                        Message msg = mHandler.obtainMessage(UsbDebuggingHandler.MESSAGE_ADB_ALLOW);
                         msg.obj = key;
+			msg.arg1 = 1;
                         mHandler.sendMessage(msg);
                     } else {
                         Slog.e(TAG, "Wrong message: "
@@ -237,15 +238,7 @@ public class UsbDebuggingManager {
                     String key = (String)msg.obj;
                     String fingerprints = getFingerprints(key);
 
-                    if (!fingerprints.equals(mFingerprints)) {
-                        Slog.e(TAG, "Fingerprints do not match. Got "
-                                + fingerprints + ", expected " + mFingerprints);
-                        break;
-                    }
-
-                    if (msg.arg1 == 1) {
-                        writeKey(key);
-                    }
+                    writeKey(key);
 
                     if (mThread != null) {
                         mThread.sendResponse("OK");
